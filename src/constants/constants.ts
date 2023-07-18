@@ -5,4 +5,4 @@ export const SUPPORTED_LANGUAGES = {
   de: 'Deutsch'
 }
 
-export const AUTO_LENGUAGE = 'auto'
+export const AUTO_LANGUAGE = 'auto'

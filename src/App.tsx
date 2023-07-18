@@ -3,9 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import { useStore } from './hooks/useStore'
 import { Container, Row, Col, Button } from 'react-bootstrap'
-import { AUTO_LENGUAGE } from './constants/constants'
-import { SnowboardIcon } from './components/icons/SnowboardIcon'
+import { AUTO_LANGUAGE } from './constants/constants'
+// import { SnowboardIcon } from './components/icons/SnowboardIcon'
 import { LanguageSelector } from './components/icons/LanguageSelector'
+import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined'
+import { SectionType } from '../types.d'
 
 function App() {
   const { fromLanguage, toLanguage, interchangeLanguages, setFromLanguage, setToLanguage } = useStore()
@@ -18,24 +20,24 @@ function App() {
         <Col>
           <h2>From</h2>
           <LanguageSelector
-          type='from'
+          type={SectionType.From}
           value={fromLanguage}
           onChange={setFromLanguage} />
-          {fromLanguage}
+          {/* {fromLanguage} */}
         </Col>
         <Col>
           <Button
-            disabled={fromLanguage === AUTO_LENGUAGE}
+            disabled={fromLanguage === AUTO_LANGUAGE}
             onClick={interchangeLanguages}
-            className='btn btn-primary'><SnowboardIcon /></Button>
+            className='btn btn-primary'><CloseFullscreenOutlinedIcon /></Button>
         </Col>
         <Col>
           <h2>To</h2>
           <LanguageSelector
-          type='to'
+          type={SectionType.To}
           value={toLanguage}
           onChange={setToLanguage} />
-          {toLanguage}
+          {/* {toLanguage} */}
         </Col>
       </Row>
     </Container>
