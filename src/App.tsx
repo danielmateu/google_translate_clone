@@ -1,10 +1,19 @@
+/* eslint-disable @typescript-eslint/space-before-function-paren */
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
+import { useStore } from './hooks/useStore'
 
-function App () {
+function App() {
+  const { fromLanguage, setFromLanguage } = useStore()
+
   return (
     <div className='App'>
       <h1>Google Translator Clone</h1>
+      <button
+        className='btn btn-primary'
+        onClick={() => { setFromLanguage('es') }}
+      >Cambiar a Castellano</button>
+      {fromLanguage}
     </div>
   )
 }
