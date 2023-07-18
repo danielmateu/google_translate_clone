@@ -36,6 +36,7 @@ export const TextArea: React.FC<Props> = ({
 
   return (
         <Form.Control
+        disabled={type === SectionType.To}
         autoFocus={type === SectionType.From ? autoFocus : false}
         as='textarea'
         style={styles}
