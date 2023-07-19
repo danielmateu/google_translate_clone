@@ -7,19 +7,24 @@ import { Container, Row, Col, Button, Stack } from 'react-bootstrap'
 import { AUTO_LANGUAGE } from './constants/constants'
 
 import { LanguageSelector } from './components/icons/LanguageSelector'
-import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined'
+// import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined'
 import { SectionType } from '../types.d'
 
 import { TextArea } from './components/TextArea'
 import { translate } from './services/translate'
+import { useDebounce } from './hooks/useDebounce'
+import { ArrowsIcon } from './components/icons'
 
 function App() {
   const { loading, fromLanguage, toLanguage, interchangeLanguages, setFromLanguage, setToLanguage, fromText, result, setFromText, setResult } = useStore()
+
+  const debouncedFromText = useDebounce(fromText, 350)
+
   useEffect(() => {
     // console.log('Esto es un useEffect!')
-    if (fromText === '') return
+    if (debouncedFromText === '') return
 
-    translate({ fromLanguage, toLanguage, text: fromText })
+    translate({ fromLanguage, toLanguage, text: debouncedFromText })
       .then((result) => {
         if (result == null || result === undefined) return
         setResult(result)
@@ -28,11 +33,11 @@ function App() {
         console.log(error)
         setResult('Error!')
       })
-  }, [fromText, fromLanguage, toLanguage])
+  }, [debouncedFromText, fromLanguage, toLanguage])
 
   return (
     <Container fluid>
-      <h2>Google Translator Clone</h2>
+      <h2>Google Translate Clone</h2>
 
       <Row>
         <Col>
@@ -50,10 +55,14 @@ function App() {
           </Stack>
         </Col>
         <Col xs='auto'>
-          <Button
+          {/* <Button
             disabled={fromLanguage === AUTO_LANGUAGE}
             onClick={interchangeLanguages}
-            className='btn btn-primary'><CloseFullscreenOutlinedIcon /></Button>
+            className=''><CloseFullscreenOutlinedIcon />
+          </Button> */}
+          <Button variant='link' disabled={fromLanguage === AUTO_LANGUAGE} onClick={interchangeLanguages}>
+            <ArrowsIcon />
+          </Button>
         </Col>
         <Col>
           <Stack gap={2}>
