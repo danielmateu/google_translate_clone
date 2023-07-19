@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
@@ -13,7 +14,7 @@ import { SectionType } from '../types.d'
 import { TextArea } from './components/TextArea'
 import { translate } from './services/translate'
 import { useDebounce } from './hooks/useDebounce'
-import { ArrowsIcon } from './components/icons'
+import { ArrowsIcon, ClipboardIcon, SpeakerIcon } from './components/icons'
 
 function App() {
   const { loading, fromLanguage, toLanguage, interchangeLanguages, setFromLanguage, setToLanguage, fromText, result, setFromText, setResult } = useStore()
@@ -35,6 +36,16 @@ function App() {
       })
   }, [debouncedFromText, fromLanguage, toLanguage])
 
+  const hadleClipboard = () => {
+    navigator.clipboard.writeText(result).catch(() => { })
+  }
+
+  const handleSpeaker = () => {
+    const utterance = new SpeechSynthesisUtterance(result)
+    utterance.lang = toLanguage
+    window.speechSynthesis.speak(utterance)
+  }
+
   return (
     <Container fluid>
       <h2>Google Translate Clone</h2>
@@ -47,11 +58,13 @@ function App() {
               type={SectionType.From}
               value={fromLanguage}
               onChange={setFromLanguage} />
-            <TextArea
-              type={SectionType.From}
-              onChange={setFromText}
-              value={fromText}
-            />
+            <div style={{ position: 'relative' }}>
+              <TextArea
+                type={SectionType.From}
+                onChange={setFromText}
+                value={fromText}
+              />
+            </div>
           </Stack>
         </Col>
         <Col xs='auto'>
@@ -72,12 +85,29 @@ function App() {
               value={toLanguage}
               onChange={setToLanguage} />
             {/* {toLnguage} */}
-            <TextArea
-              loading={loading}
-              type={SectionType.To}
-              value={result}
-              onChange={setResult}
-            />
+            <div style={{ position: 'relative' }}>
+              <TextArea
+                loading={loading}
+                type={SectionType.To}
+                value={result}
+                onChange={setResult}
+              />
+              <div style={{ position: 'absolute', left: 0, bottom: 0, display: 'flex', justifyContent: 'space-between' }} >
+                <Button
+                  variant='link'
+                  // style={{ position: 'absolute', left: 0, bottom: 0 }}
+                  onClick={hadleClipboard}>
+                  < ClipboardIcon />
+                </Button>
+                <Button
+                  variant='link'
+                  // style={{ position: 'absolute', left: 0, bottom: 0 }}
+                  onClick={handleSpeaker}>
+                  < SpeakerIcon />
+                </Button>
+
+              </div>
+            </div>
           </Stack>
         </Col>
       </Row>
