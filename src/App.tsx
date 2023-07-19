@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
+import { useEffect } from 'react'
 import { useStore } from './hooks/useStore'
 import { Container, Row, Col, Button, Stack } from 'react-bootstrap'
 import { AUTO_LANGUAGE } from './constants/constants'
@@ -10,9 +11,24 @@ import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutl
 import { SectionType } from '../types.d'
 
 import { TextArea } from './components/TextArea'
+import { translate } from './services/translate'
 
 function App() {
   const { loading, fromLanguage, toLanguage, interchangeLanguages, setFromLanguage, setToLanguage, fromText, result, setFromText, setResult } = useStore()
+  useEffect(() => {
+    // console.log('Esto es un useEffect!')
+    if (fromText === '') return
+
+    translate({ fromLanguage, toLanguage, text: fromText })
+      .then((result) => {
+        if (result == null || result === undefined) return
+        setResult(result)
+      })
+      .catch((error) => {
+        console.log(error)
+        setResult('Error!')
+      })
+  }, [fromText])
 
   return (
     <Container fluid>
