@@ -28,7 +28,7 @@ function App() {
         console.log(error)
         setResult('Error!')
       })
-  }, [fromText])
+  }, [fromText, fromLanguage, toLanguage])
 
   return (
     <Container fluid>
