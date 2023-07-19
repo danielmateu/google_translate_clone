@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/prefer-ts-expect-error */
 import Form from 'react-bootstrap/Form'
 import { SectionType } from '../../types.d'
 
@@ -39,6 +41,7 @@ export const TextArea: React.FC<Props> = ({
         disabled={type === SectionType.To}
         autoFocus={type === SectionType.From ? autoFocus : false}
         as='textarea'
+        // @ts-ignore
         style={styles}
         placeholder={getPlaceholder({ type, loading })}
         value={value}

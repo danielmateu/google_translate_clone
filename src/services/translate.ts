@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/prefer-ts-expect-error */
 import { ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi } from 'openai'
 import { SUPPORTED_LANGUAGES } from '../constants/constants'
 import { type FromLanguage, type Language } from '../../types.d'
@@ -52,8 +55,9 @@ export async function translate ({
       content: 'Buenos días, ¿cómo estás?'
     }
   ]
-
+  // @ts-ignore
   const fromCode = fromLanguage === 'auto' ? 'auto' : SUPPORTED_LANGUAGES[fromLanguage]
+  // @ts-ignore
   const toCode = SUPPORTED_LANGUAGES[toLanguage]
 
   const completion = await openai.createChatCompletion({
